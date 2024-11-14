@@ -14,32 +14,30 @@
 		<header>
 		</header>
 		<main>
-			<label for="ticker-input"> Add up to 3 stock tickers below to get a stock predictions report</label>
-			<div class="form-input-control">
-				<input type="text" id="company-input" placeholder="Microsotft, -MSFT">
-				<div id="suggestions"></div>
-				<button class="add-ticker-btn">
-				</button>
-			</div>
-
 			<section class="action-panel">
 				<form id="ticker-input-form">
-					<label for="ticker-input"> Add up to 3 stock tickers below to get a super accurate stock predictions report👇 </label>
+					<label for="company-input"> Add up to 3 stock tickers below to get a stock predictions report</label>
 					<div class="form-input-control">
-						<input type="text" id="ticker-input" placeholder="MSFT">
-						<button class="add-ticker-btn">
+						<input type="text" id="company-input" placeholder="MSFT - Microsotft">
+						<div id="suggestions"></div>
+						<div class="not-found">
+							'Your search is not a company in the S&P 500'
+						</div>
+						<button id="add-ticker-btn" class="add-ticker-btn">
+							+
 						</button>
 					</div>
 				</form>
-				<p class="ticker-choice-display">
-					Your tickers will appear here...
-				</p>
+				<div id="tickers-container"></div>
+
 				<button class="generate-report-btn" type="button" disabled>
 					Generate Report
 				</button>
 				<p class="tag-line">Always correct 15% of the time!</p>
 			</section>
 			<section class="loading-panel">
+				<img src="./images/loading.svg" alt="loading">
+				<div id="api-message">Querying Stocks API...</div>
 			</section>
 			<section class="output-panel">
 				<h2>Your Report</h2>
