@@ -154,30 +154,61 @@ function updateButtonStates() {
 const loadingArea = document.querySelector('.loading-panel')
 const apiMessage = document.getElementById('api-message')
 
+// async function fetchStockData() {
+//   console.log('Generating report...');
+//   // document.querySelector('.action-panel').style.display = 'none';
+//   loadingArea.style.display = 'flex';
+
+//   try {
+//       const stockData = await Promise.all(tickersArr.map(async (ticker) => {
+//           const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${dates.startDate}/${dates.endDate}?apiKey=MATfx0pg_Pm0tLmMHI3aI1pPRa47VBpD`;
+//           const response = await fetch(url);
+
+//           if (!response.ok) {
+//               throw new Error(`Error fetching data for ${ticker}: ${response.status} ${response.statusText}`);
+//           }
+
+//           const data = await response.json();
+//           apiMessage.innerText = 'Creating report...';
+//           return data;
+//       }));
+
+//       console.log('Stock data fetched successfully:', stockData);
+//       // fetchReport(stockData.join('')); // Use this as needed
+//   } catch (err) {
+//       loadingArea.innerText = 'There was an error fetching stock data.';
+//       console.error('Error:', err);
+//   }
+// }
+
 async function fetchStockData() {
   console.log('Generating report...');
-  // document.querySelector('.action-panel').style.display = 'none';
   loadingArea.style.display = 'flex';
 
   try {
-      const stockData = await Promise.all(tickersArr.map(async (ticker) => {
-          const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${dates.startDate}/${dates.endDate}?apiKey=MATfx0pg_Pm0tLmMHI3aI1pPRa47VBpD`;
-          const response = await fetch(url);
+    const stockData = await Promise.all(
+      tickersArr.map(async (ticker) => {
+        const response = await fetch(
+          `/api/polygon?ticker=${ticker}&startDate=${dates.startDate}&endDate=${dates.endDate}`
+        );
+        // const response = await fetch(`http://localhost:3000/api/polygon?ticker=${ticker}&startDate=${dates.startDate}&endDate=${dates.endDate}`);
 
-          if (!response.ok) {
-              throw new Error(`Error fetching data for ${ticker}: ${response.status} ${response.statusText}`);
-          }
 
-          const data = await response.json();
-          apiMessage.innerText = 'Creating report...';
-          return data;
-      }));
+        if (!response.ok) {
+          throw new Error(`Error fetching data for ${ticker}: ${response.status} ${response.statusText}`);
+        }
 
-      console.log('Stock data fetched successfully:', stockData);
-      // fetchReport(stockData.join('')); // Use this as needed
+        const data = await response.json();
+        apiMessage.innerText = 'Creating report...';
+        return data;
+      })
+    );
+
+    console.log('Stock data fetched successfully:', stockData);
+    // fetchReport(stockData.join('')); // Use this as needed
   } catch (err) {
-      loadingArea.innerText = 'There was an error fetching stock data.';
-      console.error('Error:', err);
+    loadingArea.innerText = 'There was an error fetching stock data.';
+    console.error('Error:', err);
   }
 }
 
